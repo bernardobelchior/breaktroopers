@@ -23,7 +23,10 @@ module.exports = class Messenger {
    */
   postMessage (message) {
     if (this.webClient) {
-      this.webClient.chat.postMessage(message)
+      this.webClient.chat.postMessage(message).catch(e => {
+        console.error(e)
+        console.error(`Error sending message to channel ${message.channel} in workspace ${this.workspaceId}.\nThe message was:\n\n${message.text}`)
+      })
     } else {
       console.error(`Error sending message to channel ${message.channel} in workspace ${this.workspaceId}.\nThe message was:\n\n${message.text}`)
     }
@@ -35,7 +38,10 @@ module.exports = class Messenger {
    */
   postEphemeral (message) {
     if (this.webClient) {
-      this.webClient.chat.postEphemeral(message)
+      this.webClient.chat.postEphemeral(message).catch(e => {
+        console.error(e)
+        console.error(`Error sending ephemeral message to user ${message.user} in channel ${message.channel} in workspace ${this.workspaceId}.\nThe message was:\n\n${message.text}`)
+      })
     } else {
       console.error(`Error sending ephemeral message to user ${message.user} in channel ${message.channel} in workspace ${this.workspaceId}.\nThe message was:\n\n${message.text}`)
     }
